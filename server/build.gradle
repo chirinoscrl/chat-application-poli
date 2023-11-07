@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group = 'co.edu.poli.persistencia.chat.server'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'log4j:log4j:1.2.17'
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

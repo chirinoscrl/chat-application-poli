@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" minWidth="600" minHeight="400" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.poli.persistencia.chat.client.ChatClientInitController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Label text="Chat Application" alignment="CENTER">
+        <font>
+            <Font size="24.0"/>
+        </font>
+    </Label>
+
+    <Label text="Por favor proporcione los datos de conexion:"/>
+
+    <Label fx:id="statusLabel"/>
+
+    <HBox spacing="10.0">
+        <Label text="IP Address:" minWidth="100"/>
+        <TextField fx:id="ipField" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <HBox spacing="10.0">
+        <Label text="Port Number:" minWidth="100"/>
+        <TextField fx:id="portField" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <HBox spacing="10.0">
+        <Label text="Nickname:" minWidth="100"/>
+        <TextField fx:id="nicknameField" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <HBox alignment="TOP_RIGHT">
+        <Button fx:id="connectButton" text="Connect" onAction="#onConnectButtonClick"/>
+    </HBox>
+
+    <!-- Agregando la seccion de chat -->
+    <VBox spacing="10.0">
+        <Label fx:id="chatLabel" text="Mensajes del chat:"/>
+        <TextArea fx:id="chatArea" editable="false" prefHeight="200.0"/>
+    </VBox>
+
+    <HBox spacing="10.0">
+        <Label text="Usuarios conectados:" maxWidth="130"/>
+        <ComboBox fx:id="activeUsersList" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <HBox spacing="10.0">
+        <TextField fx:id="messageInput" promptText="Escribe tu mensaje.." HBox.hgrow="ALWAYS"/>
+        <Button text="Enviar" onAction="#onSendButtonClick"/>
+    </HBox>
+</VBox>
