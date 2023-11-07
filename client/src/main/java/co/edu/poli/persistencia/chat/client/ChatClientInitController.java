@@ -24,6 +24,7 @@ public class ChatClientInitController {
 
     private static final Logger logger = LogManager.getLogger(ChatClientInitController.class);
 
+    // Elementos FXML:
     @FXML
     private TextField ipField;
 
@@ -45,16 +46,23 @@ public class ChatClientInitController {
     @FXML
     private TextArea chatArea;
 
+    // Cliente del chat:
     ChatClient client;
 
+    // Lista Observable para mantener a los usuarios activos:
     @FXML
     private ComboBox<String> activeUsersList;
 
+    // Apodo del usuario:
     String nickname;
 
     // ObservableList to hold the active users
     ObservableList<String> activeUsers;
 
+    /**
+     * Inicializa la lista activeUsers y la establece como los elementos para la ListView activeUsersList.
+     * Este método normalmente es llamado después de que el archivo FXML ha sido cargado y el controlador ha sido creado.
+     */
     @FXML
     protected void initialize() {
         activeUsers = FXCollections.observableArrayList();
@@ -62,10 +70,11 @@ public class ChatClientInitController {
     }
 
     /**
-     * Manejador de eventos para el botón de conectar.
-     * Este método establece una conexión con el servidor de chat utilizando el apodo proporcionado.
-     * Después de una conexión exitosa, actualiza los elementos de la IU en consecuencia, y comienza un nuevo hilo para leer continuamente los mensajes entrantes del servidor.
-     * Si la conexión falla, vuelve a habilitar el botón de conectar y muestra el mensaje de error en la etiqueta de estado.
+     * Manejador de eventos para el botón conectar.
+     * Este método establece una conexión con el servidor de chat utilizando el apodo provisto.
+     * Una vez que se realiza una conexión exitosa, actualiza los elementos de la interface del usuario en consecuencia,
+     * y comienza un nuevo hilo para continuar leyendo los mensajes entrantes del servidor.
+     * Si la conexión falla, habilita el botón conectar nuevamente y muestra el mensaje de error en la etiqueta de estado.
      *
      * @throws IOException Si hay un error durante el proceso de conexión.
      */
@@ -101,14 +110,14 @@ public class ChatClientInitController {
     }
 
     /**
-     * Manejador de eventos para el botón de enviar.
+     * Manejador de eventos para el botón enviar.
      * Este método envía un mensaje al servidor de chat utilizando el nombre de usuario seleccionado y el mensaje ingresado.
-     * Si el nombre de usuario y el mensaje no son nulos ni están vacíos, el método agrega el nombre de usuario al mensaje.
-     * Si el cliente está conectado, el método envía el mensaje al servidor a través del cliente.
-     * Por último, el método limpia el campo de entrada de mensajes.
+     * Si el nombre de usuario y mensaje no son null ni están vacíos, el método añadirá el nombre de usuario al mensaje.
+     * Si el cliente está conectado, el método enviará el mensaje al servidor a través del cliente.
+     * Finalmente, el método limpiará el campo de entrada de mensajes.
      *
-     * @param actionEvent El evento que desencadenó el método.
-     * @throws IOException Si hay un error durante el proceso de envío de mensajes.
+     * @param actionEvent El evento que ha disparado el método.
+     * @throws IOException Si ocurre un error durante el proceso de envío del mensaje.
      */
     public void onSendButtonClick(ActionEvent actionEvent) throws IOException {
         String targetNickname = activeUsersList.getValue(); // Obtén el nombre de usuario seleccionado

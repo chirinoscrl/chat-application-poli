@@ -9,6 +9,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * La clase ClientThread representa un hilo de cliente que maneja la comunicación entre el servidor y un solo cliente.
+ *
+ * @author Autor
+ * @version 1.0
+ * @since 2023.11.06
+ */
 class ClientThread extends Thread {
 
     private static final Logger logger = Logger.getLogger(ClientThread.class);
@@ -23,16 +30,20 @@ class ClientThread extends Thread {
     private String clientNickname;
 
     /**
-     * Inicializa una nueva instancia de la clase ClientThread con el socket de cliente especificado y los escritores de clientes activos.
+     * Inicializa una nueva instancia de la clase ClientThread.
      *
-     * @param clientSocket El socket del cliente utilizado para comunicarse con el cliente.
-     * @param activeClientsWriters El mapa de los escritores de clientes activos, donde la clave es el identificador único del cliente y el valor es el escritor utilizado para enviar mensajes al cliente.
+     * @param clientSocket El socket del cliente.
+     * @param activeClientsWriters Un ConcurrentHashMap en el que la clave representa el nombre de usuario
+     * y el valor el PrintWriter asociado a ese usuario.
      */
     public ClientThread(Socket clientSocket, ConcurrentHashMap<String, PrintWriter> activeClientsWriters) {
         this.clientSocket = clientSocket;
         this.activeClientsWriters = activeClientsWriters;
     }
 
+    /**
+     * Es invocado cuando se inicia un nuevo hilo de ejecución.
+     */
     @Override
     public void run() {
         try {
@@ -75,10 +86,10 @@ class ClientThread extends Thread {
     }
 
     /**
-     * Verifica si un nickname está siendo utilizado por otro cliente.
+     * Chequea si un apodo se encuentra actualmente en uso.
      *
-     * @param clientOutputWriter El escritor para enviar mensajes al cliente.
-     * @return True si el nickname ya está en uso, False en caso contrario.
+     * @param clientOutputWriter Es utilizado para enviar mensajes al cliente.
+     * @return Verdadero si el apodo está en uso; falso en caso contrario.
      */
     private boolean isNicknameInUse(PrintWriter clientOutputWriter) {
         synchronized (activeClientsWriters) {
@@ -94,11 +105,11 @@ class ClientThread extends Thread {
     }
 
     /**
-     * Maneja los mensajes recibidos de un cliente.
+     * Recibe los mensajes del cliente.
      *
-     * @param clientInputReader El lector de entrada para leer los mensajes del cliente.
-     * @param clientOutputWriter El escritor de salida para enviar mensajes al cliente.
-     * @throws IOException Si ocurre un error al leer o escribir en el flujo de entrada/salida.
+     * @param clientInputReader El BufferedReader del cliente.
+     * @param clientOutputWriter El PrintWriter del cliente.
+     * @throws IOException si se presenta un error al leer desde cliente.
      */
     private void handleClientMessage(BufferedReader clientInputReader, PrintWriter clientOutputWriter) throws IOException {
         String clientMessage;
@@ -117,7 +128,7 @@ class ClientThread extends Thread {
     }
 
     /**
-     * Envia la lista de usuarios activos a todos los clientes conectados.
+     * Envía a todos los clientes la lista de usuarios activos.
      */
     private void sendActiveUsersToAllClients() {
         // Crear un StringBuilder para construir la cadena que contendrá la lista de usuarios activos
@@ -144,11 +155,11 @@ class ClientThread extends Thread {
     }
 
     /**
-     * Envia un mensaje privado desde el remitente al destinatario especificado.
+     * Envía un mensaje privado desde el emisor al destinatario indicado.
      *
-     * @param senderNickname   el apodo del remitente
-     * @param message          el mensaje a enviar (en el formato ":destinatario:mensaje")
-     * @param senderWriter     el PrintWriter del remitente utilizado para enviar el mensaje al remitente
+     * @param senderNickname El apodo del emisor.
+     * @param message El mensaje a enviar (en el formato "@username: mensaje").
+     * @param senderWriter El PrintWriter del emisor utilizado para enviar mensajes al propio emisor.
      */
     private void sendPrivateMessage(String senderNickname, String message, PrintWriter senderWriter) {
         String[] messageParts = message.split(":", 2);

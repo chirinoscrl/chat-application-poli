@@ -21,17 +21,18 @@ public class ChatClient {
     private final PrintWriter buffWriter;
 
     private final Consumer<String> activeUserHandler;
-    private final Consumer<String> messageHandler; // Nuevo consumer para procesar los mensajes
+
+    private final Consumer<String> messageHandler;
 
     /**
      * Inicializa una nueva instancia de la clase ChatClient.
      *
-     * @param host              El nombre de anfitrión o dirección IP del servidor al que se va a conectar.
+     * @param host              El nombre del host o la dirección IP del servidor al que se va a conectar.
      * @param port              El número de puerto del servidor.
-     * @param nickname          El apodo que se usará para el usuario actual.
-     * @param activeUserHandler Una función de Consumer que manejará las actualizaciones de los usuarios activos en el chat.
+     * @param nickname          El apodo que se utilizará para el usuario actual.
+     * @param activeUserHandler Una función Consumer que manejará las actualizaciones de usuarios activos en el chat.
      * @param messageHandler    Una función Consumer que manejará los mensajes entrantes del chat.
-     * @throws IOException      Si se produce un error de IO mientras se conecta al servidor.
+     * @throws IOException      Si hay un error de E/S al conectarse con el servidor.
      */
     public ChatClient(String host,
                       int port,
@@ -51,17 +52,17 @@ public class ChatClient {
     /**
      * Devuelve si el socket está actualmente conectado.
      *
-     * @return verdadero si el socket está conectado, falso de lo contrario.
+     * @return verdadero si el socket está conectado, falso en caso contrario.
      */
     public boolean isConnected() {
         return socket.isConnected();
     }
 
     /**
-     * Envía un mensaje utilizando la conexión establecida.
+     * Enviar un mensaje utilizando la conexión establecida.
      *
      * @param msg el mensaje a enviar
-     * @throws IOException si ocurre un error de entrada/salida durante el envío del mensaje
+     * @throws IOException si ocurre un error en el envío del mensaje.
      */
     public void sendMessage(String msg) throws IOException {
         buffWriter.println(msg);
@@ -69,9 +70,9 @@ public class ChatClient {
     }
 
     /**
-     * Lee mensajes de texto enviados por el servidor y realiza distintas acciones según el contenido del mensaje.
+     * Lee los mensajes de texto enviados por el servidor y realiza diferentes acciones según el contenido del mensaje.
      *
-     * @throws IOException si ocurre un error de entrada/salida durante la lectura de los mensajes
+     * @throws IOException si ocurre un error durante la lectura de los mensajes.
      */
     public void readMessages() throws IOException {
         String serverMsg;
